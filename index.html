@@ -152,7 +152,7 @@
         layer_BingSatellite_0;
         map.addLayer(layer_BingSatellite_0);
         map.createPane('pane_GoogleLabels_1');
-        map.getPane('pane_GoogleLabels_1').style.zIndex = 401;
+        map.getPane('pane_GoogleLabels_1').style.zIndex = 402;
         var layer_GoogleLabels_1 = L.tileLayer('https://mt1.google.com/vt/lyrs=h&x={x}&y={y}&z={z}', {
             pane: 'pane_GoogleLabels_1',
             opacity: 1.0,
@@ -164,6 +164,21 @@
         });
         layer_GoogleLabels_1;
         map.addLayer(layer_GoogleLabels_1);
+
+        // --- INÍCIO DA CAMADA DE UMIDADE ---
+        map.createPane('pane_Umidade');
+        map.getPane('pane_Umidade').style.zIndex = 401; 
+        var imageUrl = 'data/Calor_Solo_Umido.png';
+        // ATENÇÃO: Substitua pelos valores que você anotou no QGIS: [[Sul, Oeste], [Norte, Leste]]
+        var imageBounds = [[-17.600000, -54.780000], [-17.570000, -54.760000]]; 
+        var layer_Umidade = L.imageOverlay(imageUrl, imageBounds, {
+            pane: 'pane_Umidade',
+            opacity: 0.75, // 75% de opacidade para misturar bem com o satélite
+            interactive: false
+        });
+        map.addLayer(layer_Umidade);
+        // --- FIM DA CAMADA DE UMIDADE ---
+
         function pop_PossveisVazamentos_2(feature, layer) {
             var popupContent = '<table>\
                     <tr>\
@@ -193,7 +208,7 @@
             }
         }
         map.createPane('pane_PossveisVazamentos_2');
-        map.getPane('pane_PossveisVazamentos_2').style.zIndex = 402;
+        map.getPane('pane_PossveisVazamentos_2').style.zIndex = 403;
         map.getPane('pane_PossveisVazamentos_2').style['mix-blend-mode'] = 'normal';
         var layer_PossveisVazamentos_2 = new L.geoJson(json_PossveisVazamentos_2, {
             attribution: '',
@@ -258,7 +273,8 @@
             }
         }
         var overlaysTree = [
-            {label: '<img src="markers/PossveisVazamentos_2.svg" width="20" height="20" /> Possíveis Vazamentos', layer: layer_PossveisVazamentos_2}]
+            {label: '<img src="markers/PossveisVazamentos_2.svg" width="20" height="20" /> Possíveis Vazamentos', layer: layer_PossveisVazamentos_2},
+            {label: 'Umidade do Solo', layer: layer_Umidade}]
         var lay = L.control.layers.tree(null, overlaysTree,{
             //namedToggle: true,
             //selectorBack: false,
